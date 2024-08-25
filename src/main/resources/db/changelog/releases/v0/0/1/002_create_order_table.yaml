@@ -1,0 +1,66 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002_create_order_table
+      author: Ekaterina Kondrateva
+      preConditions:
+        - onFail: MARK_RUN
+        - not:
+            tableExists:
+              tableName: order
+
+      changes:
+        - createTable:
+            tableName: order
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: customer_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: product_ids
+                  type: bigint[]
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: delivery_address
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: payment_method
+                  type: varchar(50)
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: order_notes
+                  type: text
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: created_at
+                  type: timestamp
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  constraints:
+                    nullable: false
+
+      rollback:
+        - dropTable:
+            tableName: `order`

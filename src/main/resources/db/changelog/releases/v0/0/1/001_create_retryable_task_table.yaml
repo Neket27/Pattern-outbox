@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001_create_retryable_task_table
+      author: Ekaterina Kondrateva
+      changes:
+        - createTable:
+            tableName: retryable_task
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: payload
+                  type: jsonb
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: type
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: status
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: retry_time
+                  type: timestamp
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: created_at
+                  type: timestamp
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  constraints:
+                    nullable: false

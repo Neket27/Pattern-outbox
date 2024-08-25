@@ -1,0 +1,22 @@
+server:
+  port: 8083  # Порт, на котором будет работать приложение
+
+spring:
+  application:
+    name: order-service  # Имя приложения
+  datasource:
+    url: jdbc:postgresql://localhost:5432/order_db
+    username: postgres
+    password: postgres
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+retryabletask:
+  limit: 100
+  timeoutInSeconds: 36000
+
+integration:
+  deliveryService:
+    url: {DELIVERY_SERVICE_URL:http://localhost:8081/api/v1/deliveries}
+  notificationService:
+    url: {NOTIFICATION_SERVICE_URL:http://localhost:8082/api/v1/notifications}
