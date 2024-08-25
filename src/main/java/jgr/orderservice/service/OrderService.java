@@ -19,13 +19,12 @@ public class OrderService {
     private final RetryableTaskService retryableTaskService;
 
     @Transactional
-    public OrderDto createOrder(CreateOrderDto dto){
-        var order = orderRepository.save(
-                orderMapper.toEntity(dto)
-        );
+    public OrderDto createOrder(CreateOrderDto dto) {
+        var entity = orderMapper.toEntity(dto);
+        var order = orderRepository.save(entity);
+
         retryableTaskService.createRetryableTask(order, RetryableTaskType.SEND_CREATE_DELIVERY_REQUEST);
         retryableTaskService.createRetryableTask(order, RetryableTaskType.SEND_CREATE_NOTIFICATION_REQUEST);
-
         return orderMapper.toDto(order);
     }
 }

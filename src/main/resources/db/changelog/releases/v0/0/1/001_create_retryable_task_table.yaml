@@ -2,6 +2,11 @@ databaseChangeLog:
   - changeSet:
       id: 001_create_retryable_task_table
       author: Ekaterina Kondrateva
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            tableExists:
+              tableName: retryable_task
       changes:
         - createTable:
             tableName: retryable_task
@@ -48,3 +53,10 @@ databaseChangeLog:
                   type: timestamp
                   constraints:
                     nullable: false
+
+              - column:
+                  name: version
+                  type: integer
+      rollback:
+        - dropTable:
+            tableName: retryable_task

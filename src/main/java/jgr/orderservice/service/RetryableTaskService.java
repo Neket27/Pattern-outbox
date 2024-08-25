@@ -51,7 +51,10 @@ public class RetryableTaskService {
 
     @Transactional
     public void markRetryableTasksAsCompleted(List<RetryableTask> retryableTasks) {
-        retryableTaskRepository.updateRetryableTasks(retryableTasks, RetryableTaskStatus.SUCCESS);
+        for (RetryableTask retryableTask : retryableTasks) {
+            retryableTask.setStatus(RetryableTaskStatus.SUCCESS);
+        }
+        retryableTaskRepository.saveAll(retryableTasks);
     }
 
 

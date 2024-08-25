@@ -3,14 +3,14 @@ databaseChangeLog:
       id: 002_create_order_table
       author: Ekaterina Kondrateva
       preConditions:
-        - onFail: MARK_RUN
+        - onFail: MARK_RAN
         - not:
             tableExists:
-              tableName: order
+              tableName: order_table
 
       changes:
         - createTable:
-            tableName: order
+            tableName: order_table
             columns:
               - column:
                   name: id
@@ -22,12 +22,6 @@ databaseChangeLog:
               - column:
                   name: customer_id
                   type: bigint
-                  constraints:
-                    nullable: true
-
-              - column:
-                  name: product_ids
-                  type: bigint[]
                   constraints:
                     nullable: true
 
@@ -50,17 +44,28 @@ databaseChangeLog:
                     nullable: true
 
               - column:
+                  name: customer_email
+                  type: varchar
+                  constraints:
+                    nullable: true
+
+              - column:
                   name: created_at
                   type: timestamp
                   constraints:
-                    nullable: false
+                    nullable: true
 
               - column:
                   name: updated_at
                   type: timestamp
                   constraints:
-                    nullable: false
+                    nullable: true
+
+              - column:
+                  name: version
+                  type: integer
+                  defaultValue: 0
 
       rollback:
         - dropTable:
-            tableName: `order`
+            tableName: order_table

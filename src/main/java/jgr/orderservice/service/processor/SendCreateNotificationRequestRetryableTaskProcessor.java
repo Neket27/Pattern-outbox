@@ -1,4 +1,4 @@
-package jgr.orderservice.service.retryable;
+package jgr.orderservice.service.processor;
 
 import jgr.orderservice.mapper.RetryableTaskMapper;
 import jgr.orderservice.model.entity.RetryableTask;

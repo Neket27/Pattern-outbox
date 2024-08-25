@@ -12,13 +12,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/api/v1/orders")
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
 
     @PostMapping()
-    public OrderDto createOrder(@RequestBody CreateOrderDto dto){
-        return orderService.createOrder(dto);
+    public OrderDto createOrder(@RequestBody CreateOrderDto dto) {
+        log.info("Received request to create order: {}", dto);
+
+        var response = orderService.createOrder(dto);
+
+        log.info("Response from order service: {}", response);
+        return response;
     }
 }

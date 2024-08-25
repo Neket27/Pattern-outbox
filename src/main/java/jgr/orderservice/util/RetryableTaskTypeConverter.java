@@ -2,11 +2,12 @@ package jgr.orderservice.util;
 
 import jakarta.persistence.AttributeConverter;
 import jgr.orderservice.model.enums.RetryableTaskStatus;
+import jgr.orderservice.model.enums.RetryableTaskType;
 
-public class RetryableTaskTypeConverter implements AttributeConverter<RetryableTaskStatus, String> {
+public class RetryableTaskTypeConverter implements AttributeConverter<RetryableTaskType, String> {
 
     @Override
-    public String convertToDatabaseColumn(RetryableTaskStatus status) {
+    public String convertToDatabaseColumn(RetryableTaskType status) {
         if (status == null) {
             return null;
         }
@@ -14,10 +15,10 @@ public class RetryableTaskTypeConverter implements AttributeConverter<RetryableT
     }
 
     @Override
-    public RetryableTaskStatus convertToEntityAttribute(String dbData) {
+    public RetryableTaskType convertToEntityAttribute(String dbData) {
         if (dbData == null) {
             return null;
         }
-        return RetryableTaskStatus.fromValue(dbData);
+        return RetryableTaskType.fromValue(dbData);
     }
 }

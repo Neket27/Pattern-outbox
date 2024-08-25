@@ -1,6 +1,9 @@
 package jgr.orderservice.model.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Version;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -17,13 +20,14 @@ import java.util.UUID;
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity implements Serializable {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @Column(updatable = false, nullable = false)
     private UUID id;
 
     @CreatedDate
-    private Instant  createdAt;
+    private Instant createdAt;
 
     @LastModifiedDate
     private Instant updatedAt;
+
+    @Version
+    private Integer version;
 }

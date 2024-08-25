@@ -8,8 +8,6 @@ import java.util.List;
 public class CreateOrderDto {
     private Long customerId;
 
-    private List<Long> productIds;
-
     private String deliveryAddress;
 
     private String paymentMethod;

@@ -1,18 +1,16 @@
 package jgr.orderservice.model.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
+@Table(name = "order_table")
 @Getter
 @Setter
-public class Order extends BaseEntity{
+public class Order extends BaseEntity {
     private Long customerId;
-
-    private List<Long> productIds;
 
     private String deliveryAddress;
 
