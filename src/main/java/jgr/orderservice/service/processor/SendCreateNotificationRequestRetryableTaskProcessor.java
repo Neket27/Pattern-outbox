@@ -2,6 +2,7 @@ package jgr.orderservice.service.processor;
 
 import jgr.orderservice.mapper.RetryableTaskMapper;
 import jgr.orderservice.model.entity.RetryableTask;
+import jgr.orderservice.model.enums.RetryableTaskType;
 import jgr.orderservice.service.NotificationService;
 import jgr.orderservice.service.RetryableTaskService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,11 @@ public class SendCreateNotificationRequestRetryableTaskProcessor extends Abstrac
         super(retryableTaskService);
         this.notificationService = notificationService;
         this.retryableTaskMapper = retryableTaskMapper;
+    }
+
+    @Override
+    public RetryableTaskType getRetryableTaskType() {
+        return RetryableTaskType.SEND_CREATE_NOTIFICATION_REQUEST;
     }
 
     @Override

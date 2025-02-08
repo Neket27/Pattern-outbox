@@ -1,49 +1,35 @@
 package jgr.orderservice.scheduler;
 
-import jgr.orderservice.mapper.RetryableTaskMapper;
-import jgr.orderservice.model.enums.RetryableTaskType;
-import jgr.orderservice.service.DeliveryService;
-import jgr.orderservice.service.NotificationService;
 import jgr.orderservice.service.RetryableTaskService;
-import jgr.orderservice.service.processor.RetryableTaskProcessor;
-import jgr.orderservice.service.processor.SendCreateDeliveryRequestRetryableTaskProcessor;
-import jgr.orderservice.service.processor.SendCreateNotificationRequestRetryableTaskProcessor;
+import jgr.orderservice.service.processor.AbstractRetryableTaskProcessor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * Планировщик для выполнения задач, требующих повторной обработки
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class RetryableTaskScheduler {
     private final RetryableTaskService retryableTaskService;
-    private final Map<RetryableTaskType, RetryableTaskProcessor> taskProcessors;
+    private final List<AbstractRetryableTaskProcessor> retryableTaskProcessors;
 
-    public RetryableTaskScheduler(RetryableTaskService retryableTaskService, RetryableTaskMapper retryableTaskMapper, DeliveryService deliveryService, NotificationService notificationService) {
-        this.retryableTaskService = retryableTaskService;
-        this.taskProcessors = Map.of(
-                RetryableTaskType.SEND_CREATE_DELIVERY_REQUEST, new SendCreateDeliveryRequestRetryableTaskProcessor(retryableTaskService,
-                        deliveryService, retryableTaskMapper
-                ),
-                RetryableTaskType.SEND_CREATE_NOTIFICATION_REQUEST, new SendCreateNotificationRequestRetryableTaskProcessor(retryableTaskService,
-                        notificationService, retryableTaskMapper));
-    }
 
     @Scheduled(fixedRate = 5000)
     public void executeRetryableTasks() {
         log.info("Starting retryable task processors");
-        for (Map.Entry<RetryableTaskType, RetryableTaskProcessor> entry : taskProcessors.entrySet()) {
-            var taskType = entry.getKey();
-            var taskProcessor = entry.getValue();
+        for (AbstractRetryableTaskProcessor taskProcessor : retryableTaskProcessors) {
+            var taskType = taskProcessor.getRetryableTaskType();
             log.info("Processing tasks of type: {}", taskType);
 
             var retryableTasks = retryableTaskService.getRetryableTasksForProcessing(taskType);
 
-            if(retryableTasks.isEmpty()) {
+            if (retryableTasks.isEmpty()) {
                 log.info("No retryable tasks found for type: {}", taskType);
                 continue;
             }

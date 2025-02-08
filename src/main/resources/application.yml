@@ -5,13 +5,13 @@ spring:
   application:
     name: order-service  # Имя приложения
   datasource:
-    url: jdbc:postgresql://localhost:5432/order_db
+    url: jdbc:postgresql://localhost:5433/order_db
     username: postgres
     password: postgres
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
   jpa:
-    show-sql: true  # Показать SQL-запросы в логе
+    show-sql: false  # Показать SQL-запросы в логе
     properties:
       hibernate.format_sql: true  # Форматировать SQL для лучшей читаемости
       hibernate.type: true

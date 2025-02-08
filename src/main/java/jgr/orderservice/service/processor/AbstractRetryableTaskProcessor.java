@@ -1,6 +1,7 @@
 package jgr.orderservice.service.processor;
 
 import jgr.orderservice.model.entity.RetryableTask;
+import jgr.orderservice.model.enums.RetryableTaskType;
 import jgr.orderservice.service.RetryableTaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +37,8 @@ public abstract class AbstractRetryableTaskProcessor implements RetryableTaskPro
             log.info("No tasks were marked as completed");
         }
     }
+
+    public abstract RetryableTaskType getRetryableTaskType();
 
     protected abstract boolean processRetryableTask(RetryableTask retryableTask);
 }

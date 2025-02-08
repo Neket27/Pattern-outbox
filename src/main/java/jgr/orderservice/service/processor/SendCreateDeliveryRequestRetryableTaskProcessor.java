@@ -2,6 +2,7 @@ package jgr.orderservice.service.processor;
 
 import jgr.orderservice.mapper.RetryableTaskMapper;
 import jgr.orderservice.model.entity.RetryableTask;
+import jgr.orderservice.model.enums.RetryableTaskType;
 import jgr.orderservice.service.DeliveryService;
 import jgr.orderservice.service.RetryableTaskService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,13 +19,17 @@ public class SendCreateDeliveryRequestRetryableTaskProcessor extends AbstractRet
     private final DeliveryService deliveryService;
     private final RetryableTaskMapper retryableTaskMapper;
 
-    public SendCreateDeliveryRequestRetryableTaskProcessor(RetryableTaskService retryableTaskService,
-                                                           DeliveryService deliveryService,
-                                                           RetryableTaskMapper retryableTaskMapper) {
+    @Override
+    public RetryableTaskType getRetryableTaskType(){
+        return RetryableTaskType.SEND_CREATE_DELIVERY_REQUEST;
+    }
+
+    public SendCreateDeliveryRequestRetryableTaskProcessor(RetryableTaskService retryableTaskService, DeliveryService deliveryService, RetryableTaskMapper retryableTaskMapper) {
         super(retryableTaskService);
         this.deliveryService = deliveryService;
         this.retryableTaskMapper = retryableTaskMapper;
     }
+
 
     @Override
     protected boolean processRetryableTask(RetryableTask retryableTask) {
