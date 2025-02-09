@@ -1,0 +1,7 @@
+{
+    "customerId": 1,
+    "deliveryAddress": "SPB",
+    "paymentMethod": "paymentMethod1",
+    "orderNotes": "orderNotes1",
+    "customerEmail": "nik@gmail.com"
+}
